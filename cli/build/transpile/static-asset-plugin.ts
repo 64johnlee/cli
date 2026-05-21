@@ -156,18 +156,18 @@ export const createStaticAssetPlugin = ({
             const outputFilePath = path.join(assetDir, fileName)
 
             fs.writeFileSync(outputFilePath, fileBuffer)
-            copiedAssets.set(importedId, `./assets/${fileName}`)
-            assetIdToOutputPath.set(importedId, `./assets/${fileName}`)
+            copiedAssets.set(importedId, outputFilePath)
+            assetIdToOutputPath.set(importedId, outputFilePath)
           }
         }
 
-        // Replace absolute paths in the chunk code with relative paths
+        // Replace source asset paths in chunk code with output paths
         if (chunk.code) {
           let modifiedCode = chunk.code
-          for (const [assetId, relativePath] of copiedAssets) {
+          for (const [assetId, outputPath] of copiedAssets) {
             modifiedCode = modifiedCode.replace(
               new RegExp(escapeRegExp(assetId), "g"),
-              relativePath,
+              outputPath,
             )
           }
           chunk.code = modifiedCode
