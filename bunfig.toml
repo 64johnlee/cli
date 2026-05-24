@@ -1,2 +1,6 @@
+[install]
+# Flatten node_modules to avoid Windows MAX_PATH (260 char) limit with deeply nested dependencies
+flatten = true
+
 [test]
 preload = ["tests/fixtures/preload.ts"]
